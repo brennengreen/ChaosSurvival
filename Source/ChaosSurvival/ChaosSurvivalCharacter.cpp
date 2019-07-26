@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -54,6 +55,16 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 
 	// Dash Radius for the decal and ability logic
 	DashRadius = 450.f;
+	DashCircle = CreateDefaultSubobject<UStaticMeshComponent>("DashCircle");
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Engine/VREditor/WorldMovementGrid/PlaneMesh.PlaneMesh'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial>MaterialAsset(TEXT("Material'/Game/Materials/PlayerMaterials/iDashCircle.iDashCircle'"));
+	if (MeshAsset.Succeeded() && MaterialAsset.Succeeded())
+	{
+		UMaterial* Asset = MaterialAsset.Object;
+		UStaticMesh* StaticMeshAsset = MeshAsset.Object;
+		DashCircle->SetStaticMesh(StaticMeshAsset);
+		DashCircle->SetMaterial(0, Asset);
+	}
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
