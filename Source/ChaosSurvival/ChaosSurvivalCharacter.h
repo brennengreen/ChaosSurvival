@@ -14,6 +14,10 @@ class AChaosSurvivalCharacter : public ACharacter
 public:
 	AChaosSurvivalCharacter();
 
+	/** Dash Radius for RadiusToWorld as well as the dash ability **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float DashRadius;
+
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -29,15 +33,15 @@ public:
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* TopDownCameraComponent;
+		class UCameraComponent* TopDownCameraComponent;
 
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+		class USpringArmComponent* CameraBoom;
 
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UDecalComponent* CursorToWorld;
+		class UDecalComponent* CursorToWorld;
 
 	/** A decal that will show the player their dash radius. **/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
