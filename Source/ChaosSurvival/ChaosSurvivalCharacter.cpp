@@ -55,19 +55,6 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	// Dash Radius for the decal and ability logic
 	DashRadius = 450.f;
 
-	// Create a decal in the world to show dash radius
-	RadiusToWorld = CreateDefaultSubobject<UDecalComponent>("RadiusToWorld");
-	RadiusToWorld->SetupAttachment(RootComponent);
-	static ConstructorHelpers::FObjectFinder<UMaterial> RadiusDecalMaterialAsset(TEXT("Material'/Game/TopDownCPP/Blueprints/M_Cursor_Decal.M_Cursor_Decal'"));
-	if (RadiusDecalMaterialAsset.Succeeded())
-	{
-		RadiusToWorld->SetDecalMaterial(RadiusDecalMaterialAsset.Object);
-	}
-	RadiusToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
-	RadiusToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
-
-
-
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -101,7 +88,6 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 			FRotator CursorR = CursorFV.Rotation();
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
-			RadiusToWorld->SetWorldLocation(FVector(RootComponent->GetComponentLocation().X, RootComponent->GetComponentLocation().Y, 266));
 		}
 	}
 }
