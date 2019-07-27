@@ -61,10 +61,20 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	DashCircle->SetupAttachment(RootComponent);
 	DashCircle->SetRelativeLocation(FVector(0.f, 0.f, -90.0f));
 	DashCircle->SetWorldScale3D(FVector(4.0f));
+	DashCircle->SetVisibility(false);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+}
+
+void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(InputComponent);
+
+	InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalCharacter::ShowDashCircle);
+	InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalCharacter::HideDashCircle);
+
 }
 
 void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
@@ -96,5 +106,22 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
+	}
+}
+
+void AChaosSurvivalCharacter::ShowDashCircle()
+{
+	if (DashCircle != nullptr)
+	{
+		DashCircle->SetVisibility(true);
+	}
+
+}
+
+void AChaosSurvivalCharacter::HideDashCircle()
+{
+	if (DashCircle != nullptr)
+	{
+		DashCircle->SetVisibility(false);
 	}
 }

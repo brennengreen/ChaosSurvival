@@ -16,11 +16,19 @@ public:
 	AChaosSurvivalCharacter();
 
 	/** Dash Radius for RadiusToWorld as well as the dash ability **/
+	UPROPERTY(VisibleAnywhere)
+		class UDashCircleComponent* DashCircle;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float DashRadius;
+	UFUNCTION()
+		void ShowDashCircle();
+	UFUNCTION()
+		void HideDashCircle();
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
@@ -40,9 +48,5 @@ private:
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UDecalComponent* CursorToWorld;
-
-	/** A static mesh component that shows the dash circle radius **/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UDashCircleComponent* DashCircle;
 };
 
