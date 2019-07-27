@@ -60,7 +60,8 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	DashCircle = CreateDefaultSubobject<UDashCircleComponent>("DashCircleComponent");
 	DashCircle->SetupAttachment(RootComponent);
 	DashCircle->SetRelativeLocation(FVector(0.f, 0.f, -90.0f));
-	DashCircle->SetWorldScale3D(FVector(4.0f));
+	DashCircle->SetAbsolute(false, false, true);
+	DashCircle->SetWorldScale3D(FVector(4));
 	DashCircle->SetVisibility(false);
 
 	// Activate ticking in order to update the cursor every frame.

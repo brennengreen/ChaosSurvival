@@ -16,7 +16,7 @@ public:
 	AChaosSurvivalCharacter();
 
 	/** Dash Radius for RadiusToWorld as well as the dash ability **/
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UDashCircleComponent* DashCircle;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float DashRadius;
