@@ -2,10 +2,11 @@
 
 #pragma once
 
+#include "DashCircleComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ChaosSurvivalCharacter.generated.h"
-
 UCLASS(Blueprintable)
 class AChaosSurvivalCharacter : public ACharacter
 {
@@ -42,6 +43,6 @@ private:
 
 	/** A static mesh component that shows the dash circle radius **/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* DashCircle;
+		class UDashCircleComponent* DashCircle;
 };
 

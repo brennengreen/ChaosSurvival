@@ -12,6 +12,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "DashCircleComponent.h"
+
 
 AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 {
@@ -55,16 +57,10 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 
 	// Dash Radius for the decal and ability logic
 	DashRadius = 450.f;
-	DashCircle = CreateDefaultSubobject<UStaticMeshComponent>("DashCircle");
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Engine/VREditor/WorldMovementGrid/PlaneMesh.PlaneMesh'"));
-	static ConstructorHelpers::FObjectFinder<UMaterial>MaterialAsset(TEXT("Material'/Game/Materials/PlayerMaterials/iDashCircle.iDashCircle'"));
-	if (MeshAsset.Succeeded() && MaterialAsset.Succeeded())
-	{
-		UMaterial* Asset = MaterialAsset.Object;
-		UStaticMesh* StaticMeshAsset = MeshAsset.Object;
-		DashCircle->SetStaticMesh(StaticMeshAsset);
-		DashCircle->SetMaterial(0, Asset);
-	}
+	DashCircle = CreateDefaultSubobject<UDashCircleComponent>("DashCircleComponent");
+	DashCircle->SetupAttachment(RootComponent);
+	DashCircle->SetRelativeLocation(FVector(0.f, 0.f, -90.0f));
+	DashCircle->SetWorldScale3D(FVector(4.0f));
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
