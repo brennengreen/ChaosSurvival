@@ -14,6 +14,18 @@ class AChaosSurvivalPlayerController : public APlayerController
 public:
 	AChaosSurvivalPlayerController();
 
+	/** Action handlers for Dashing **/
+	UFUNCTION()
+		void OnDashDown();
+	UFUNCTION()
+		void OnDashReleased();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		bool bCanDash;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float fDashRadius;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float fDashVelocity;
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -39,5 +51,3 @@ protected:
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
 };
-
-

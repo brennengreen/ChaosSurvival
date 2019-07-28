@@ -57,9 +57,9 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
 
 	// Dash Radius for the decal and ability logic
-	DashRadius = 450.f;
 	DashCircleSystem = CreateDefaultSubobject<UDashCircleParticleSystem>("DashCircleSystem");
 	DashCircleSystem->SetupAttachment(RootComponent);
+	DashCircleSystem->SetVisibility(false);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
@@ -70,8 +70,8 @@ void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
-	InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalCharacter::ShowDashCircle);
-	InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalCharacter::HideDashCircle);
+	//InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalCharacter::ShowDashCircle);
+	//InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalCharacter::HideDashCircle);
 
 }
 
@@ -109,11 +109,16 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 
 void AChaosSurvivalCharacter::ShowDashCircle()
 {
-
-
+	if (DashCircleSystem != nullptr)
+	{
+		DashCircleSystem->SetVisibility(true);
+	}
 }
 
 void AChaosSurvivalCharacter::HideDashCircle()
 {
-
+	if (DashCircleSystem != nullptr)
+	{
+		DashCircleSystem->SetVisibility(false);
+	}
 }

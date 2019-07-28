@@ -18,8 +18,6 @@ public:
 	/** Dash Radius for RadiusToWorld as well as the dash ability **/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UDashCircleParticleSystem* DashCircleSystem;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		float DashRadius;
 	UFUNCTION()
 		void ShowDashCircle();
 	UFUNCTION()

@@ -11,6 +11,10 @@ AChaosSurvivalPlayerController::AChaosSurvivalPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+
+	fDashRadius = 310.f;
+	fDashVelocity = 7500.f;
+	bCanDash = true;
 }
 
 void AChaosSurvivalPlayerController::PlayerTick(float DeltaTime)
@@ -37,6 +41,10 @@ void AChaosSurvivalPlayerController::SetupInputComponent()
 	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AChaosSurvivalPlayerController::MoveToTouchLocation);
 
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AChaosSurvivalPlayerController::OnResetVR);
+
+	// Dash
+	InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalPlayerController::OnDashDown);
+	InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalPlayerController::OnDashReleased);
 }
 
 void AChaosSurvivalPlayerController::OnResetVR()
@@ -109,4 +117,38 @@ void AChaosSurvivalPlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
+}
+
+void AChaosSurvivalPlayerController::OnDashDown()
+{
+	AChaosSurvivalCharacter* MyCharacter = Cast<AChaosSurvivalCharacter>(GetPawn());
+
+	if (bCanDash)
+	{
+		MyCharacter->ShowDashCircle();
+	}
+}
+
+void AChaosSurvivalPlayerController::OnDashReleased()
+{
+	AChaosSurvivalCharacter* MyCharacter = Cast<AChaosSurvivalCharacter>(GetPawn());
+	MyCharacter->HideDashCircle();
+
+	if (bCanDash)
+	{
+		FHitResult Hit;
+		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+
+		APawn* const MyPawn = GetPawn();
+		FVector CurrentLocation = MyPawn->GetActorLocation();
+
+		float Distance = FVector::Dist(Hit.ImpactPoint, CurrentLocation);
+		if (Distance <= fDashRadius)
+		{
+			FVector HitLocation = FVector(Hit.ImpactPoint.X, Hit.ImpactPoint.Y, 1);
+			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
+
+			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
+		}
+	}
 }
