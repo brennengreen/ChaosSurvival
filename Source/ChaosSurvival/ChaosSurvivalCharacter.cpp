@@ -12,7 +12,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
-#include "DashCircleComponent.h"
+#include "DashCircleParticleSystem.h"
+
 
 
 AChaosSurvivalCharacter::AChaosSurvivalCharacter()
@@ -57,12 +58,8 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 
 	// Dash Radius for the decal and ability logic
 	DashRadius = 450.f;
-	DashCircle = CreateDefaultSubobject<UDashCircleComponent>("DashCircleComponent");
-	DashCircle->SetupAttachment(RootComponent);
-	DashCircle->SetRelativeLocation(FVector(0.f, 0.f, -90.0f));
-	DashCircle->SetAbsolute(false, false, true);
-	DashCircle->SetWorldScale3D(FVector(4));
-	DashCircle->SetVisibility(false);
+	DashCircleSystem = CreateDefaultSubobject<UDashCircleParticleSystem>("DashCircleSystem");
+	DashCircleSystem->SetupAttachment(RootComponent);
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
@@ -112,17 +109,11 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 
 void AChaosSurvivalCharacter::ShowDashCircle()
 {
-	if (DashCircle != nullptr)
-	{
-		DashCircle->SetVisibility(true);
-	}
+
 
 }
 
 void AChaosSurvivalCharacter::HideDashCircle()
 {
-	if (DashCircle != nullptr)
-	{
-		DashCircle->SetVisibility(false);
-	}
+
 }

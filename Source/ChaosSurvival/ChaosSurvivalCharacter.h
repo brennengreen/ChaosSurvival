@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DashCircleComponent.h"
+#include "DashCircleParticleSystem.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -17,7 +17,7 @@ public:
 
 	/** Dash Radius for RadiusToWorld as well as the dash ability **/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UDashCircleComponent* DashCircle;
+		class UDashCircleParticleSystem* DashCircleSystem;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float DashRadius;
 	UFUNCTION()
