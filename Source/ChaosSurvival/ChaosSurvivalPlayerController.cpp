@@ -153,7 +153,10 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 		{
 			bCanDash = false;
 
+			// Get the current FVector Location in the world of the cursor
 			FVector HitLocation = FVector(Hit.ImpactPoint.X, Hit.ImpactPoint.Y, 1);
+			// Subtract cursor location by actor location to the the resultant
+			// FVector for proper trajectory
 			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
 
 			UCharacterMovementComponent* MyCharacterMovement = MyCharacter->GetCharacterMovement();
@@ -161,7 +164,7 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 			MyCharacterMovement->BrakingFrictionFactor = 0.f;
 			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
 
-			GetWorldTimerManager().SetTimer(UnusedHandle, this, &AChaosSurvivalPlayerController::StopDashing, 0.1f, false);
+			GetWorldTimerManager().SetTimer(UnusedTimerHandle, this, &AChaosSurvivalPlayerController::StopDashing, 0.1f, false);
 		}
 	}
 }
@@ -169,8 +172,7 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 void AChaosSurvivalPlayerController::StopDashing()
 {
 	Cast<AChaosSurvivalCharacter>(GetPawn())->GetCharacterMovement()->StopMovementImmediately();
-	GetWorldTimerManager().SetTimer(UnusedHandle, this, &AChaosSurvivalPlayerController::ResetDash, fDashCooldown, false);
-
+	GetWorldTimerManager().SetTimer(UnusedTimerHandle, this, &AChaosSurvivalPlayerController::ResetDash, fDashCooldown, false);
 }
 
 void AChaosSurvivalPlayerController::ResetDash()

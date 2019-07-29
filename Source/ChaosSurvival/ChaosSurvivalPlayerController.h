@@ -32,7 +32,7 @@ public:
 		float fDashCooldown;
 
 	UPROPERTY()
-		FTimerHandle UnusedHandle;
+		FTimerHandle UnusedTimerHandle;
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
