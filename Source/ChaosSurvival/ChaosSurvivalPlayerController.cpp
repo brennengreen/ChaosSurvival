@@ -3,6 +3,7 @@
 #include "ChaosSurvivalPlayerController.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/CharacterMovementComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "ChaosSurvivalCharacter.h"
 #include "Engine/World.h"
@@ -148,6 +149,7 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 			FVector HitLocation = FVector(Hit.ImpactPoint.X, Hit.ImpactPoint.Y, 1);
 			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
 
+			MyCharacter->GetCharacterMovement()->StopMovementImmediately();
 			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
 		}
 	}

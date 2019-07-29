@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "ChaosSurvivalPlayerController.generated.h"
-
 UCLASS()
 class AChaosSurvivalPlayerController : public APlayerController
 {
