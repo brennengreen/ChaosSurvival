@@ -3,18 +3,23 @@
 #include "ChaosSurvivalPlayerController.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
-#include "Runtime/Engine/Classes/GameFramework/CharacterMovementComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "ChaosSurvivalCharacter.h"
 #include "Engine/World.h"
+/////////////////////////////////////////////////////////////////////////////
+#include "Runtime/Engine/Classes/GameFramework/CharacterMovementComponent.h"
+#include "Runtime/Engine/Public/TimerManager.h"
+/////////////////////////////////////////////////////////////////////////////
+
 
 AChaosSurvivalPlayerController::AChaosSurvivalPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
 
-	fDashRadius = 310.f;
-	fDashVelocity = 7500.f;
+	fDashRadius = 400.f;
+	fDashCooldown = 3.0f;
+	fDashVelocity = 3500.f;
 	bCanDash = true;
 }
 
@@ -146,11 +151,29 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 		float Distance = FVector::Dist(Hit.ImpactPoint, CurrentLocation);
 		if (Distance <= fDashRadius)
 		{
+			bCanDash = false;
+
 			FVector HitLocation = FVector(Hit.ImpactPoint.X, Hit.ImpactPoint.Y, 1);
 			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
 
-			MyCharacter->GetCharacterMovement()->StopMovementImmediately();
+			UCharacterMovementComponent* MyCharacterMovement = MyCharacter->GetCharacterMovement();
+			MyCharacterMovement->StopMovementImmediately();
+			MyCharacterMovement->BrakingFrictionFactor = 0.f;
 			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
+
+			GetWorldTimerManager().SetTimer(UnusedHandle, this, &AChaosSurvivalPlayerController::StopDashing, 0.1f, false);
 		}
 	}
+}
+
+void AChaosSurvivalPlayerController::StopDashing()
+{
+	Cast<AChaosSurvivalCharacter>(GetPawn())->GetCharacterMovement()->StopMovementImmediately();
+	GetWorldTimerManager().SetTimer(UnusedHandle, this, &AChaosSurvivalPlayerController::ResetDash, fDashCooldown, false);
+
+}
+
+void AChaosSurvivalPlayerController::ResetDash()
+{
+	bCanDash = true;
 }

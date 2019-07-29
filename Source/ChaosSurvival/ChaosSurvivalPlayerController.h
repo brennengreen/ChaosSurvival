@@ -18,13 +18,21 @@ public:
 		void OnDashDown();
 	UFUNCTION()
 		void OnDashReleased();
+	UFUNCTION()
+		void StopDashing();
+	UFUNCTION()
+		void ResetDash();
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		bool bCanDash;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float fDashRadius;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float fDashVelocity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float fDashCooldown;
 
+	UPROPERTY()
+		FTimerHandle UnusedHandle;
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
