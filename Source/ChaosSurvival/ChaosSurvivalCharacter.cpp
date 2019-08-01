@@ -13,11 +13,13 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 #include "DashCircleParticleSystem.h"
+#include "CharacterWeapon.h"
 
 
 
 AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 {
+
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -45,6 +47,9 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	// Create weapon attachment
+	PrimaryWeapon = CreateDefaultSubobject<UCharacterWeapon>(TEXT("PrimaryWeapon"));
+
 	// Create a decal in the world to show the cursor's location
 	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
 	CursorToWorld->SetupAttachment(RootComponent);
@@ -55,7 +60,7 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 	}
 	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
 	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
-
+	   
 	// Dash Radius for the decal and ability logic
 	DashCircleSystem = CreateDefaultSubobject<UDashCircleParticleSystem>("DashCircleSystem");
 	DashCircleSystem->SetupAttachment(RootComponent);
@@ -73,6 +78,11 @@ void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	//InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalCharacter::ShowDashCircle);
 	//InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalCharacter::HideDashCircle);
 
+}
+
+void AChaosSurvivalCharacter::BeginPlay()
+{
+	PrimaryWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
 }
 
 void AChaosSurvivalCharacter::Tick(float DeltaSeconds)

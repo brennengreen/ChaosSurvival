@@ -13,6 +13,16 @@ class AChaosSurvivalPlayerController : public APlayerController
 public:
 	AChaosSurvivalPlayerController();
 
+	/** Shooting Configurations **/
+	UFUNCTION()
+		void OnShootDown();
+	UFUNCTION()
+		void OnShootReleased();
+	UFUNCTION()
+		void Shoot();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		bool bIsShooting;
+
 	/** Action handlers for Dashing **/
 	UFUNCTION()
 		void OnDashDown();

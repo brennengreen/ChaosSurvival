@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 #include "Runtime/Engine/Classes/GameFramework/CharacterMovementComponent.h"
 #include "Runtime/Engine/Public/TimerManager.h"
+#include "DrawDebugHelpers.h"
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -17,6 +18,7 @@ AChaosSurvivalPlayerController::AChaosSurvivalPlayerController()
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
 
+	/** Dash Configurations **/
 	fDashRadius = 400.f;
 	fDashCooldown = 3.0f;
 	fDashVelocity = 3500.f;
@@ -31,6 +33,10 @@ void AChaosSurvivalPlayerController::PlayerTick(float DeltaTime)
 	if (bMoveToMouseCursor)
 	{
 		MoveToMouseCursor();
+	}
+	if (bIsShooting)
+	{
+		Shoot();
 	}
 }
 
@@ -51,6 +57,10 @@ void AChaosSurvivalPlayerController::SetupInputComponent()
 	// Dash
 	InputComponent->BindAction("Dash", IE_Pressed, this, &AChaosSurvivalPlayerController::OnDashDown);
 	InputComponent->BindAction("Dash", IE_Released, this, &AChaosSurvivalPlayerController::OnDashReleased);
+
+	// Shoot
+	InputComponent->BindAction("Shoot", IE_Pressed, this, &AChaosSurvivalPlayerController::OnShootDown);
+	InputComponent->BindAction("Shoot", IE_Released, this, &AChaosSurvivalPlayerController::OnShootReleased);
 }
 
 void AChaosSurvivalPlayerController::OnResetVR()
@@ -159,9 +169,10 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 			// FVector for proper trajectory
 			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
 
-			UCharacterMovementComponent* MyCharacterMovement = MyCharacter->GetCharacterMovement();
-			MyCharacterMovement->StopMovementImmediately();
-			MyCharacterMovement->BrakingFrictionFactor = 0.f;
+			UCharacterMovementComponent* CharacterMovement = MyCharacter->GetCharacterMovement();
+			CharacterMovement->VisualizeMovement();
+			CharacterMovement->StopMovementImmediately();
+			CharacterMovement->BrakingFrictionFactor = 0.f;
 			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
 
 			GetWorldTimerManager().SetTimer(UnusedTimerHandle, this, &AChaosSurvivalPlayerController::StopDashing, 0.1f, false);
@@ -178,4 +189,20 @@ void AChaosSurvivalPlayerController::StopDashing()
 void AChaosSurvivalPlayerController::ResetDash()
 {
 	bCanDash = true;
+}
+
+
+void AChaosSurvivalPlayerController::OnShootDown()
+{
+	bIsShooting = true;
+}
+
+void AChaosSurvivalPlayerController::OnShootReleased()
+{
+	bIsShooting = false;
+}
+
+void AChaosSurvivalPlayerController::Shoot()
+{
+	UE_LOG(LogTemp, Display, TEXT("Pew"));
 }

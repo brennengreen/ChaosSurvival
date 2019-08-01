@@ -15,6 +15,10 @@ class AChaosSurvivalCharacter : public ACharacter
 public:
 	AChaosSurvivalCharacter();
 
+	/** Primary Weapon **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UCharacterWeapon* PrimaryWeapon;
+
 	/** Dash Radius for RadiusToWorld as well as the dash ability **/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UDashCircleParticleSystem* DashCircleSystem;
@@ -25,6 +29,7 @@ public:
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 
