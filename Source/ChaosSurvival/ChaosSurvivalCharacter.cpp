@@ -49,6 +49,7 @@ AChaosSurvivalCharacter::AChaosSurvivalCharacter()
 
 	// Create weapon attachment
 	PrimaryWeapon = CreateDefaultSubobject<UCharacterWeapon>(TEXT("PrimaryWeapon"));
+	PrimaryWeapon->SetupAttachment(GetMesh(), TEXT("WeaponSocket"));
 
 	// Create a decal in the world to show the cursor's location
 	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
@@ -82,7 +83,10 @@ void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 void AChaosSurvivalCharacter::BeginPlay()
 {
+	Super::BeginPlay();
+	//imaryWeapon->AttachTo(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
 	PrimaryWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
+
 }
 
 void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
