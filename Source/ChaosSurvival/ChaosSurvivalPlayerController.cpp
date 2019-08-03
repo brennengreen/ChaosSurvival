@@ -170,7 +170,6 @@ void AChaosSurvivalPlayerController::OnDashReleased()
 			FVector LaunchVector = FVector(HitLocation - CurrentLocation);
 
 			UCharacterMovementComponent* CharacterMovement = MyCharacter->GetCharacterMovement();
-			CharacterMovement->VisualizeMovement();
 			CharacterMovement->StopMovementImmediately();
 			CharacterMovement->BrakingFrictionFactor = 0.f;
 			MyCharacter->LaunchCharacter(LaunchVector.GetSafeNormal() * fDashVelocity, true, true);
