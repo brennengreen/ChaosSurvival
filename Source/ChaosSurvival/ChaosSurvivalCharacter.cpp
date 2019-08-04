@@ -14,6 +14,7 @@
 #include "Engine/World.h"
 #include "DashCircleParticleSystem.h"
 #include "CharacterWeapon.h"
+#include "DrawDebugHelpers.h"
 
 
 
@@ -84,9 +85,8 @@ void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 void AChaosSurvivalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	//imaryWeapon->AttachTo(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
-	PrimaryWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
 
+	PrimaryWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("WeaponSocket"));
 }
 
 void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
@@ -119,6 +119,21 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	}
+
+	/*FHitResult OutHit;
+	FVector Start = GetActorLocation();
+	Start.Z += 50.f;
+	Start.X += 200.f;
+
+	FVector ForwardVector = GetActorForwardVector();
+	FVector End = ((ForwardVector * 500.f) + Start);
+	FCollisionQueryParams CollisionParams;
+
+	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 5);
+	if (ActorLineTraceSingle(OutHit, Start, End, ECC_WorldStatic, CollisionParams)) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("The component being hit is: %s"), *OutHit.GetComponent()->GetName());
+	}*/
 }
 
 void AChaosSurvivalCharacter::ShowDashCircle()
