@@ -1,4 +1,4 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+ // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "ChaosSurvivalCharacter.h"
 #include "UObject/ConstructorHelpers.h"
@@ -125,20 +125,22 @@ void AChaosSurvivalCharacter::Tick(float DeltaSeconds)
 		}
 	}
 
-	/*FHitResult OutHit;
+	/** This would work greate as the FireLine() Method
+	FHitResult OutHit;
 	FVector Start = GetActorLocation();
-	Start.Z += 50.f;
-	Start.X += 200.f;
 
 	FVector ForwardVector = GetActorForwardVector();
-	FVector End = ((ForwardVector * 500.f) + Start);
+
+	FHitResult CursorTraceHitResult;
+	Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_Visibility, true, CursorTraceHitResult);
+	FVector End = (CursorTraceHitResult.Location);
 	FCollisionQueryParams CollisionParams;
 
 	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 5);
 	if (ActorLineTraceSingle(OutHit, Start, End, ECC_WorldStatic, CollisionParams)) 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("The component being hit is: %s"), *OutHit.GetComponent()->GetName());
-	}*/
+	} **/
 }
 
 void AChaosSurvivalCharacter::ShowDashCircle()
