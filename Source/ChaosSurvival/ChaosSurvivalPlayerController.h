@@ -20,8 +20,15 @@ public:
 		void OnShootReleased();
 	UFUNCTION()
 		void Shoot();
+	UFUNCTION()
+		bool ProcessHit(class UObject* HitActor);
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		bool bIsShooting;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float fFiringCooldown;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float fRifleDamage;
+
 
 	/** Action handlers for Dashing **/
 	UFUNCTION()

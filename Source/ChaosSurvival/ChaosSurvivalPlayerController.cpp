@@ -203,5 +203,18 @@ void AChaosSurvivalPlayerController::OnShootReleased()
 
 void AChaosSurvivalPlayerController::Shoot()
 {
+	// Get Location of Muzzle and Cursor, Subtract for Unit Vector
+	// Then LineTrace() in that direction
+
+	// Trace Line then ProcessHit() anything that is hit
+	// If ProcessHit() returns true, line hit enemy
+	// So deal damage accordingly
+
 	UE_LOG(LogTemp, Display, TEXT("Pew"));
+}
+
+bool AChaosSurvivalPlayerController::ProcessHit(class UObject* HitActor)
+{
+	// If Actor is EnemyAI then return true else false
+	return false;
 }

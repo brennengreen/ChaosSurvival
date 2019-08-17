@@ -82,6 +82,11 @@ void AChaosSurvivalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 }
 
+FVector AChaosSurvivalCharacter::GetMuzzleLocation()
+{
+	return FVector();
+}
+
 void AChaosSurvivalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
